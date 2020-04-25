@@ -2,6 +2,7 @@ import numpy as np
 from gwt import gwt
 from scipy.io import loadmat
 import time
+from matplotlib import cm
 
 def save_data():
 
@@ -15,7 +16,7 @@ def save_data():
     WdthG = 0.015  # <-
     plot = False  # <-
 
-    TFRs = np.zeros([signals.shape[0], M, K, signals.shape[2]])
+    TFRs = np.zeros([signals.shape[0], M, K, 3, signals.shape[2]])
 
     targets = np.hstack([0*np.ones(signals.shape[0]), np.ones(signals.shape[0]), \
                         2*np.ones(signals.shape[0]), 3*np.ones(signals.shape[0])]).astype(int)
@@ -29,11 +30,13 @@ def save_data():
             current_signal = signals[sig, :, dev]
 
             (tfr, _, _) = gwt(current_signal, M, K, Fs, Ndelta, WdthG, plot)
-            TFRs[sig, :, :, dev] = tfr
+            tfr_rgb = cm.jet(tfr)[:, :, 0:3]
+
+            TFRs[sig, :, :, :, dev] = tfr_rgb
 
         print("done.\n")
 
-    TFRs = TFRs.reshape(signals.shape[0] * signals.shape[2], M, K, 1)
+    TFRs = TFRs.reshape(signals.shape[0] * signals.shape[2], M, K, 3)
 
     end_time = time.time()
 
@@ -42,3 +45,7 @@ def save_data():
 
     np.save('tfrs.npy', TFRs)
     np.save('targets.npy', targets)
+
+
+if __name__ == "__main__":
+    save_data()
