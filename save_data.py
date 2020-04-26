@@ -37,12 +37,23 @@ def save_data():
         print("done.\n")
 
     TFRs = TFRs.reshape(signals.shape[0] * signals.shape[2], M, K, 3)
+   
+    # Standardize images before saving
+    print('Standardizing Images...')
+    TFRs[:, :, :, 0] -= np.mean(TFRs[:, :, :, 0])
+    TFRs[:, :, :, 1] -= np.mean(TFRs[:, :, :, 1])
+    TFRs[:, :, :, 2] -= np.mean(TFRs[:, :, :, 2])
+
+    TFRs[:, :, :, 0] /= np.std(TFRs[:, :, :, 0])
+    TFRs[:, :, :, 1] /= np.std(TFRs[:, :, :, 1])
+    TFRs[:, :, :, 2] /= np.std(TFRs[:, :, :, 2])
 
     end_time = time.time()
 
     transform_time = end_time - start_time
     print("Time to compute all GT's: {} minutes\n".format(transform_time / 60))
 
+    print('Saving images...')
     np.save('tfrs.npy', TFRs)
     np.save('targets.npy', targets)
 
