@@ -3,6 +3,7 @@ from gwt import gwt
 from scipy.io import loadmat
 import time
 from matplotlib import cm
+from scipy.misc import imresize
 
 def save_data():
 
@@ -16,7 +17,7 @@ def save_data():
     WdthG = 0.015  # <-
     plot = False  # <-
 
-    TFRs = np.zeros([signals.shape[0], M, K, 3, signals.shape[2]])
+    TFRs = np.zeros([signals.shape[0], 128, 128, 3, signals.shape[2]])
 
     targets = np.hstack([0*np.ones(signals.shape[0]), np.ones(signals.shape[0]), \
                         2*np.ones(signals.shape[0]), 3*np.ones(signals.shape[0])]).astype(int)
@@ -32,11 +33,11 @@ def save_data():
             (tfr, _, _) = gwt(current_signal, M, K, Fs, Ndelta, WdthG, plot)
             tfr_rgb = cm.jet(tfr)[:, :, 0:3]
 
-            TFRs[sig, :, :, :, dev] = tfr_rgb
+            TFRs[sig, :, :, :, dev] = imresize(tfr_rgb, (128, 128, 3), interp='nearest')
 
         print("done.\n")
 
-    TFRs = TFRs.reshape(signals.shape[0] * signals.shape[2], M, K, 3)
+    TFRs = TFRs.reshape(signals.shape[0] * signals.shape[2], 128, 128, 3)
    
     # Standardize images before saving
     print('Standardizing Images...')
