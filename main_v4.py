@@ -31,20 +31,20 @@ def main():
     act = LeakyReLU(alpha=0.1)
 
     conv_layer_1 = Conv2D(64, (3, 3), strides=(1, 1), padding='valid', activation=act)(input_layer)
-    dropout_layer_1 = SpatialDropout2D(0.5)(conv_layer_1)
-    pool_layer_1 = MaxPooling2D((2, 2))(dropout_layer_1)
+    # dropout_layer_1 = SpatialDropout2D(0.5)(conv_layer_1)
+    pool_layer_1 = MaxPooling2D((2, 2))(conv_layer_1)
 
     conv_layer_2 = Conv2D(32, (3, 3), strides=(1, 1), padding='valid', activation=act)(pool_layer_1)
-    dropout_layer_2 = SpatialDropout2D(0.5)(conv_layer_2)   
-    pool_layer_2 = MaxPooling2D((2, 2))(dropout_layer_2)
+    # dropout_layer_2 = SpatialDropout2D(0.5)(conv_layer_2)
+    pool_layer_2 = MaxPooling2D((2, 2))(conv_layer_2)
 
-    conv_layer_3 = Conv2D(32, (3, 3), strides=(1, 1), padding='valid', activation=act)(pool_layer_2)
-    dropout_layer_3 = SpatialDropout2D(0.5)(conv_layer_3)
-    pool_layer_3 = MaxPooling2D((2, 2))(dropout_layer_3)
+    conv_layer_3 = Conv2D(12, (3, 3), strides=(1, 1), padding='valid', activation=act)(pool_layer_2)
+    # dropout_layer_3 = SpatialDropout2D(0.5)(conv_layer_3)
+    pool_layer_3 = MaxPooling2D((2, 2))(conv_layer_3)
 
-    conv_layer_4 = Conv2D(32, (3, 3), strides=(1, 1), padding='valid', activation=act)(pool_layer_3)
-    dropout_layer_4 = SpatialDropout2D(0.5)(conv_layer_4)
-    pool_layer_4 = MaxPooling2D((2, 2))(dropout_layer_4)
+    conv_layer_4 = Conv2D(8, (3, 3), strides=(1, 1), padding='valid', activation=act)(pool_layer_3)
+    # dropout_layer_4 = SpatialDropout2D(0.5)(conv_layer_4)
+    pool_layer_4 = MaxPooling2D((2, 2))(conv_layer_4)
 
     flat_layer = Flatten()(pool_layer_4)
     dense_layer = Dense(128, activation=act)(flat_layer)
@@ -53,7 +53,7 @@ def main():
     model = Model(inputs=input_layer, outputs=output_layer)
     model.summary()
 
-    comp = keras.optimizers.SGD(learning_rate=0.005) 
+    comp = keras.optimizers.SGD(learning_rate=0.00005)
     model.compile(loss='sparse_categorical_crossentropy', optimizer=comp, metrics=['accuracy'])
     model.fit(TFRs, targets, epochs=100, batch_size=1)
 
