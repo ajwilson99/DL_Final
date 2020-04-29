@@ -63,8 +63,8 @@ def gwt(SigIn, M, Nfft, Fs, Ndelta, WdthG, plot):
     # tfr_mag = 10*np.log10((np.abs(gfft) - np.min(np.min(np.abs(gfft))))
     #          / (np.max(np.max(np.abs(gfft))) - np.min(np.min(np.abs(gfft)))))
 
-    tfr_mag = (np.abs(gfft) - np.min(np.min(np.abs(gfft)))) / (np.max(np.max(np.abs(gfft))) - np.min(np.min(np.abs(gfft))))
-
+    #tfr_mag = (np.abs(gfft) - np.min(np.min(np.abs(gfft)))) / (np.max(np.max(np.abs(gfft))) - np.min(np.min(np.abs(gfft))))
+    tfr_mag = np.abs(gfft)
     # dB_floor = np.max(np.max(tfr_mag)) - 30
     #
     # ri, ci = np.where(tfr_mag <= dB_floor)
