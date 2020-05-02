@@ -29,12 +29,6 @@ def main():
     train_x = np.load('tfrs.npy').reshape(8000, 386, 386, 1)
     train_y = np.load('targets.npy')
 
-    # Standardize data
-#    train_mean = np.mean(train_x)
-#    train_std = np.std(train_x)
-#    train_x = (train_x - train_mean)/train_std
-  
-
     # Develop CNN model
     print("Building model...")
 
@@ -76,7 +70,6 @@ def main():
     model = Model(inputs=input_layer, outputs=output_layer)
     model.summary()
 
-    comp = keras.optimizers.SGD(learning_rate=0.00005) 
     model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     hist = model.fit(train_x, train_y, epochs=20, validation_split=0.20)
 
