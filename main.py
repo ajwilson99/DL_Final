@@ -15,6 +15,7 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras import datasets
 from sklearn.metrics import confusion_matrix as CM
+from sklearn.model_selection import train_test_split
 
 def main():
 
@@ -28,6 +29,8 @@ def main():
     # Load data and labels
     train_x = np.load('tfrs.npy').reshape(8000, 386, 386, 1)
     train_y = np.load('targets.npy')
+
+    train_x, test_x, train_y, test_y = train_test_split(train_x, train_y, test_size=0.2, shuffle=True)
 
     # Develop CNN model
     print("Building model...")
@@ -71,7 +74,7 @@ def main():
     model.summary()
 
     model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    hist = model.fit(train_x, train_y, epochs=20, validation_split=0.20)
+    hist = model.fit(train_x, train_y, epochs=20, validation_data=(test_x, test_y))
 
     np.save('training_accuracy.npy', hist.history['accuracy'])
     np.save('training_loss.npy', hist.history['loss'])

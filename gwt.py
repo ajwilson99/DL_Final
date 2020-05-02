@@ -63,7 +63,7 @@ def gwt(SigIn, M, Nfft, Fs, Ndelta, WdthG, plot):
     # tfr_mag = 10*np.log10((np.abs(gfft) - np.min(np.min(np.abs(gfft))))
     #          / (np.max(np.max(np.abs(gfft))) - np.min(np.min(np.abs(gfft)))))
 
-    # tfr_mag = (np.abs(gfft) - np.min(np.min(np.abs(gfft)))) / (np.max(np.max(np.abs(gfft))) - np.min(np.min(np.abs(gfft))))
+    tfr_mag = (np.abs(gfft) - np.min(np.min(np.abs(gfft)))) / (np.max(np.max(np.abs(gfft))) - np.min(np.min(np.abs(gfft))))
 
     # dB_floor = np.max(np.max(tfr_mag)) - 30
     #
@@ -112,7 +112,7 @@ def gwt(SigIn, M, Nfft, Fs, Ndelta, WdthG, plot):
     #     plt.ylabel(freq_label)
     #     plt.show()
 
-    return (gfft, Fscale, Tscale)
+    return (tfr_mag, Fscale, Tscale)
 
 
 
