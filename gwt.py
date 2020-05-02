@@ -54,7 +54,7 @@ def gwt(SigIn, M, Nfft, Fs, Ndelta, WdthG, plot):
 
     xShftd = x[r.astype(int) - 1, c.astype(int) - 1]
     
-    gfft = fft(xShftd*winGT, Nfft, axis=1)
+    gfft = np.abs(fft(xShftd*winGT, Nfft, axis=1))
 
     Tscale = np.linspace(0, (Ntshfts-1)*(1/Fs), num=Ntshfts)  # Time scale
     dF = Fs/(2*Nfft);  # Freq Plot Step Size
@@ -63,8 +63,8 @@ def gwt(SigIn, M, Nfft, Fs, Ndelta, WdthG, plot):
     # tfr_mag = 10*np.log10((np.abs(gfft) - np.min(np.min(np.abs(gfft))))
     #          / (np.max(np.max(np.abs(gfft))) - np.min(np.min(np.abs(gfft)))))
 
-    #tfr_mag = (np.abs(gfft) - np.min(np.min(np.abs(gfft)))) / (np.max(np.max(np.abs(gfft))) - np.min(np.min(np.abs(gfft))))
-    tfr_mag = np.abs(gfft)
+    # tfr_mag = (np.abs(gfft) - np.min(np.min(np.abs(gfft)))) / (np.max(np.max(np.abs(gfft))) - np.min(np.min(np.abs(gfft))))
+
     # dB_floor = np.max(np.max(tfr_mag)) - 30
     #
     # ri, ci = np.where(tfr_mag <= dB_floor)
@@ -112,7 +112,7 @@ def gwt(SigIn, M, Nfft, Fs, Ndelta, WdthG, plot):
     #     plt.ylabel(freq_label)
     #     plt.show()
 
-    return (tfr_mag, Fscale, Tscale)
+    return (gfft, Fscale, Tscale)
 
 
 
