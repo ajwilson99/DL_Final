@@ -20,7 +20,7 @@ def ind2sub(array_shape, ind):
     cols = (ind.astype('int') % array_shape[1]) # or numpy.mod(ind.astype('int'), array_shape[1])
     return (rows, cols)
 
-# The code below was taken from gwt_v5.py written by Dr. Donald Reising, University of Tennessee at Chattanooga
+# The code below was taken from gwt_v5.m written by Dr. Donald Reising, University of Tennessee at Chattanooga
 
 
 def gwt(SigIn, M, Nfft, Fs, Ndelta, WdthG, plot):
